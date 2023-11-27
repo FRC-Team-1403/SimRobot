@@ -7,3 +7,4 @@ This is a project to combine all parts of a robot to simulate them all together.
 - W/S for front and back
 - A/D for left and right
 - Z/Nothing for elevator
+- X/Nothing for elevator
