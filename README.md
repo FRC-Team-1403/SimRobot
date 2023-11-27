@@ -9,3 +9,5 @@ This is a project to combine all parts of a robot to simulate them all together.
 - Z/Nothing for elevator
 - X/Nothing for elevator
 - USE JOYSTICK 0
+
+![Demo Looks](readmeAssets/demo.png)
