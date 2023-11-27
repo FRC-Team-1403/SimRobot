@@ -8,3 +8,4 @@ This is a project to combine all parts of a robot to simulate them all together.
 - A/D for left and right
 - Z/Nothing for elevator
 - X/Nothing for elevator
+- USE JOYSTICK 0
