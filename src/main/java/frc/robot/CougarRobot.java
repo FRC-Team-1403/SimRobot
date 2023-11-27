@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Elevator;
 
 import java.util.List;
 
@@ -22,10 +23,12 @@ public class CougarRobot extends TimedRobot {
   // to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
-
+  //declaring all of the subsystems
   private final Drivetrain m_drive = new Drivetrain();
+  private final Elevator m_elevator = new Elevator();
   private final RamseteController m_ramsete = new RamseteController();
   private final Timer m_timer = new Timer();
+  //Auto Stuff
   private Trajectory m_trajectory;
 
   @Override
@@ -40,11 +43,15 @@ public class CougarRobot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    // Update the telemetry, including mechanism visualization, regardless of mode.
+    m_elevator.updateTelemetry();
     m_drive.periodic();
   }
 
   @Override
   public void autonomousInit() {
+    // Update the simulation model.
+    m_elevator.simulationPeriodic();
     m_timer.restart();
     m_drive.resetOdometry(m_trajectory.getInitialPose());
   }
@@ -69,10 +76,29 @@ public class CougarRobot extends TimedRobot {
     // the right by default.
     double rotaion = -m_rotLimiter.calculate(m_controller.getLeftX()) * Drivetrain.kMaxAngularSpeed;
     m_drive.drive(xSpeed, rotaion);
+    if (m_controller.getAButton()) {
+      // Here, we set the constant setpoint of 0.75 meters.
+      m_elevator.reachGoal(Constants.kSetpointMeters);
+    } else {
+      // Otherwise, we update the setpoint to 0.
+      m_elevator.reachGoal(0.0);
+    }
   }
 
   @Override
   public void simulationPeriodic() {
     m_drive.simulationPeriodic();
+  }
+
+  @Override
+  public void disabledInit() {
+    // This just makes sure that our simulation code knows that the motor's off.
+    m_elevator.stop();
+  }
+
+  @Override
+  public void close() {
+    m_elevator.close();
+    super.close();
   }
 }
