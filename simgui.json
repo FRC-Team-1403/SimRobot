@@ -6,9 +6,30 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "height": 8.0,
+        "width": 16.0,
         "window": {
           "visible": true
         }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
+        ".recording": {
+          "open": true
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
+        "open": true
       }
     }
   }
