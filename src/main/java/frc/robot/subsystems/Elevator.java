@@ -54,7 +54,7 @@ public class Elevator implements AutoCloseable {
   private final PWMSim m_motorSim = new PWMSim(m_motor);
 
   // Create a Mechanism2d visualization of the elevator
-  private final Mechanism2d m_mech2d = new Mechanism2d(20, 50);
+  private final Mechanism2d m_mech2d = new Mechanism2d(20, 25);
   private final MechanismRoot2d m_mech2dRoot = m_mech2d.getRoot("Elevator Root", 10, 0);
   private final MechanismLigament2d m_elevatorMech2d =
       m_mech2dRoot.append(
