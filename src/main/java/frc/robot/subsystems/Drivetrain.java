@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 public class Drivetrain {
   // 3 meters per second.
@@ -42,8 +43,8 @@ public class Drivetrain {
   private final MotorControllerGroup m_rightGroup =
       new MotorControllerGroup(m_rightLeader, m_rightFollower);
 
-  private final Encoder m_leftEncoder = new Encoder(0, 1);
-  private final Encoder m_rightEncoder = new Encoder(2, 3);
+  private final Encoder m_leftEncoder = new Encoder(Constants.kEncoder1, Constants.kEncoder2);
+  private final Encoder m_rightEncoder = new Encoder(Constants.kEncoder3, Constants.kEncoder4);
 
   private final PIDController m_leftPIDController = new PIDController(8.5, 0, 0);
   private final PIDController m_rightPIDController = new PIDController(8.5, 0, 0);

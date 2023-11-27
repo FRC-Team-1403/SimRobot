@@ -3,10 +3,16 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
+    //DriveTrain Constants
+    public static final int kEncoder1 = 0;
+    public static final int kEncoder2 = 1;
+    public static final int kEncoder3 = 2;
+    public static final int kEncoder4 = 3;
+
     // Elevator Constants
-    public static final int kElevatorMotorPort = 0;
-    public static final int kElevatorEncoderAChannel = 0;
-    public static final int kElevatorEncoderBChannel = 1;
+    public static final int kElevatorMotorPort = 5;
+    public static final int kElevatorEncoderAChannel = 4;
+    public static final int kElevatorEncoderBChannel = 5;
     public static final int kJoystickPort = 0;
 
     public static final double kElevatorKp = 5;
@@ -31,9 +37,9 @@ public class Constants {
     //  = (Pi * D) / ppr
     public static final double kElevatorEncoderDistPerPulse =
     2.0 * Math.PI * kElevatorDrumRadius / 4096;
-    public static final int kArmMotorPort = 3;
-    public static final int kArmEncoderAChannel = 4;
-    public static final int kArmEncoderBChannel = 5;
+    public static final int kArmMotorPort = 6;
+    public static final int kArmEncoderAChannel = 6;
+    public static final int kArmEncoderBChannel = 7;
 
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
