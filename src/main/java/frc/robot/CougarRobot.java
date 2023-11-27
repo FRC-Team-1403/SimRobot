@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
 
@@ -26,6 +27,7 @@ public class CougarRobot extends TimedRobot {
   //declaring all of the subsystems
   private final Drivetrain m_drive = new Drivetrain();
   private final Elevator m_elevator = new Elevator();
+  private final Arm m_arm = new Arm();
   private final RamseteController m_ramsete = new RamseteController();
   private final Timer m_timer = new Timer();
   //Auto Stuff
@@ -45,13 +47,12 @@ public class CougarRobot extends TimedRobot {
   public void robotPeriodic() {
     // Update the telemetry, including mechanism visualization, regardless of mode.
     m_elevator.updateTelemetry();
+    
     m_drive.periodic();
   }
 
   @Override
   public void autonomousInit() {
-    // Update the simulation model.
-    m_elevator.simulationPeriodic();
     m_timer.restart();
     m_drive.resetOdometry(m_trajectory.getInitialPose());
   }
@@ -63,7 +64,10 @@ public class CougarRobot extends TimedRobot {
     ChassisSpeeds speeds = m_ramsete.calculate(m_drive.getPose(), reference);
     m_drive.drive(speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
   }
-
+  @Override
+  public void teleopInit() {
+    m_arm.loadPreferences();
+  }
   @Override
   public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
@@ -83,22 +87,34 @@ public class CougarRobot extends TimedRobot {
       // Otherwise, we update the setpoint to 0.
       m_elevator.reachGoal(0.0);
     }
+    if (m_keyboard.getBButton()) {
+      // Here, we run PID control like normal.
+      m_arm.reachSetpoint();
+    } else {
+      // Otherwise, we disable the motor.
+      m_arm.stop();
+    }
   }
 
   @Override
   public void simulationPeriodic() {
+  // Update the simulation model.
     m_drive.simulationPeriodic();
+    m_arm.simulationPeriodic();
+    m_elevator.simulationPeriodic();
   }
 
   @Override
   public void disabledInit() {
     // This just makes sure that our simulation code knows that the motor's off.
     m_elevator.stop();
+    m_arm.stop();
   }
 
   @Override
   public void close() {
     m_elevator.close();
+    m_arm.close();
     super.close();
   }
 }
