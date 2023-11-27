@@ -11,9 +11,21 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm Sim": "Mechanism2d",
+      "/SmartDashboard/Elevator Sim": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
+      "/SmartDashboard/Arm Sim": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Elevator Sim": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "height": 8.0,
         "width": 16.0,
