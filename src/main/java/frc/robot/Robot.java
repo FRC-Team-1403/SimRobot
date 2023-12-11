@@ -17,7 +17,7 @@ import frc.robot.subsystems.Elevator;
 
 import java.util.List;
 
-public class CougarRobot extends TimedRobot {
+public class Robot extends TimedRobot {
   private final XboxController m_keyboard = new XboxController(0);
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0
