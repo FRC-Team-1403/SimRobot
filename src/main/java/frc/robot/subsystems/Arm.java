@@ -93,6 +93,7 @@ public class Arm implements AutoCloseable {
 
     // Update the Mechanism Arm angle based on the simulated arm angle
     m_arm.setAngle(Units.radiansToDegrees(m_armSim.getAngleRads()));
+
   }
 
   /** Load setpoint and kP from preferences. */
@@ -110,6 +111,13 @@ public class Arm implements AutoCloseable {
     var pidOutput =
         m_controller.calculate(
             m_encoder.getDistance(), Units.degreesToRadians(m_armSetpointDegrees));
+    m_motor.setVoltage(pidOutput);
+  }
+    /** Run the control loop to reach set angle. */
+  public void moveToAngle(double angle) {
+    var pidOutput =
+        m_controller.calculate(
+            m_encoder.getDistance(), Units.degreesToRadians(angle));
     m_motor.setVoltage(pidOutput);
   }
 
