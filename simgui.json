@@ -37,15 +37,6 @@
   },
   "NetworkTables": {
     "transitory": {
-      "FMSInfo": {
-        "open": true
-      },
-      "LiveWindow": {
-        ".status": {
-          "open": true
-        },
-        "open": true
-      },
       "Shuffleboard": {
         ".metadata": {
           "open": true
@@ -60,35 +51,6 @@
           "open": true
         },
         "open": true
-      }
-    }
-  },
-  "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
-    "Connections": {
-      "open": true
-    },
-    "Server": {
-      "Publishers": {
-        "open": true
-      },
-      "Subscribers": {
-        "open": true
-      },
-      "open": true
-    }
-  },
-  "Plot": {
-    "Plot <0>": {
-      "plots": [
-        {
-          "height": 338
-        }
-      ],
-      "window": {
-        "visible": false
       }
     }
   }
