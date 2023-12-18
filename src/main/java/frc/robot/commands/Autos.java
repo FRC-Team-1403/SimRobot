@@ -23,7 +23,6 @@ public final class Autos {
       new RunCommand(() -> drivetrain.fastStop(), drivetrain)
     );
   }
-
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
   }
