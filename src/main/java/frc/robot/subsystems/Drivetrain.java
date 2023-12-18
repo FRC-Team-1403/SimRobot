@@ -21,9 +21,10 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Drivetrain {
+public class Drivetrain extends SubsystemBase {
   // 3 meters per second.
   public static final double kMaxSpeed = 3.0;
   // 1/2 rotation per second.
@@ -91,7 +92,16 @@ public class Drivetrain {
     m_rightGroup.setInverted(true);
     SmartDashboard.putData("Field", m_fieldSim);
   }
+   // Stopping the robot by cutting power
+   public void stop() {
+    m_leftGroup.setVoltage(0);
+    m_rightGroup.setVoltage(0);
 
+  }
+  // Stopping the robot with backwords propultion(unsafe)
+  public void fastStop() {
+    drive(0, 0);
+  }
   /** Sets speeds to the drivetrain motors. */
   public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
     var leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
@@ -134,7 +144,6 @@ public class Drivetrain {
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
-
   /** Update our simulation. This should be run every robot loop in simulation. */
   public void simulationPeriodic() {
     // To update our simulation, we set motor voltage inputs, update the

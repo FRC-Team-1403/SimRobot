@@ -19,8 +19,9 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm implements AutoCloseable {
+public class Arm extends SubsystemBase {
   // The P gain for the PID controller that drives this arm.
   private double m_armKp = Constants.kDefaultArmKp;
   private double m_armSetpointDegrees = Constants.kDefaultArmSetpointDegrees;
@@ -124,8 +125,6 @@ public class Arm implements AutoCloseable {
   public void stop() {
     m_motor.set(0.0);
   }
-
-  @Override
   public void close() {
     m_motor.close();
     m_encoder.close();

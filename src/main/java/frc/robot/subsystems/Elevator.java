@@ -18,8 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Elevator implements AutoCloseable {
+public class Elevator extends SubsystemBase {
   // This gearbox represents a gearbox containing 4 Vex 775pro motors.
   private final DCMotor m_elevatorGearbox = DCMotor.getVex775Pro(4);
 
@@ -101,8 +102,11 @@ public class Elevator implements AutoCloseable {
 
   /** Stop the control loop and motor output. */
   public void stop() {
-    m_controller.setGoal(0.0);
     m_motor.set(0.0);
+  }
+  //Code that runs every 2ms
+  public void periodic() {
+    updateTelemetry();
   }
 
   /** Update telemetry, including the mechanism visualization. */
@@ -110,8 +114,6 @@ public class Elevator implements AutoCloseable {
     // Update elevator visualization with position
     m_elevatorMech2d.setLength(m_encoder.getDistance());
   }
-
-  @Override
   public void close() {
     m_encoder.close();
     m_motor.close();
