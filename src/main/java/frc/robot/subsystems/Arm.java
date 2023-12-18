@@ -109,10 +109,7 @@ public class Arm extends SubsystemBase {
 
   /** Run the control loop to reach and maintain the setpoint from the preferences. */
   public void reachSetpoint() {
-    var pidOutput =
-        m_controller.calculate(
-            m_encoder.getDistance(), Units.degreesToRadians(m_armSetpointDegrees));
-    m_motor.setVoltage(pidOutput);
+    moveToAngle(m_armSetpointDegrees);
   }
     /** Run the control loop to reach set angle. */
   public void moveToAngle(double angle) {
