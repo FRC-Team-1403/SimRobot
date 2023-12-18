@@ -72,4 +72,9 @@ public final class Constants {
       public static final double kArmLength = Units.inchesToMeters(30);
       public static final double kMinAngleRads = Units.degreesToRadians(-75);
       public static final double kMaxAngleRads = Units.degreesToRadians(255);
+      // Turret Constants
+      public static final double kFlyWheelGearing = 3.0;
+      public static final double kFlyWheelJKgMetersSquared = 2;
+      public static final int kFlyWheelMotorPort = 7;
+
 }
