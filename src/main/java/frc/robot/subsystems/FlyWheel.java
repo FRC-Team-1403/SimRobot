@@ -18,32 +18,33 @@ public class FlyWheel extends SubsystemBase {
             Constants.kFlyWheelJKgMetersSquared);
     // Make Motor
     private final PWMSparkMax m_motor = new PWMSparkMax(Constants.kFlyWheelMotorPort);
+    private double m_motorSpeed = 0.0;
 
     /** Update the simulation model. */
     public void simulationPeriodic() {
         // In this method, we update our simulation of what our arm is doing
-        // First, we set our "inputs" (voltages)
+        // we set our "inputs" (voltages)
         m_simbase.setInput(m_motor.get() * RobotController.getBatteryVoltage());
-
         // Next, we update it. The standard loop time is 20ms.
         m_simbase.update(0.020);
-
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_simbase.getCurrentDrawAmps()));
     }
     /** Set FlyWheel to double Speed. */
     public void setSpeed(double Speed) {
-        m_motor.set(Speed);
+        m_motorSpeed = (Math.sqrt(Speed) * m_motorSpeed) + 0.1 * (RoboRioSim.getVInVoltage() / 50);
+        m_motor.set(m_motorSpeed);
     }
     /** Stop the control loop and motor output. */
     public void stop() {
-        m_motor.set(0.0);
+        setSpeed(0.0);
     }
 
     // Code that runs every 2ms
     public void periodic() {
         SmartDashboard.putNumber("FlyWheel Rpm", m_motor.get());
     }
+
 
 }

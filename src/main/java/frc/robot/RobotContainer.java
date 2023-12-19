@@ -9,6 +9,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.FlyWheel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,7 +42,7 @@ public class RobotContainer {
   private final Elevator m_elevator = new Elevator();
   private final Arm m_arm = new Arm();
   private final Timer m_timer = new Timer();
-
+  private final FlyWheel m_flyWheel = new FlyWheel();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -82,6 +83,9 @@ public class RobotContainer {
     new Trigger(() -> m_keyboard.getBButton())
         .onTrue(new RunCommand(() -> m_arm.reachSetpoint(), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.stop(), m_arm));
+    new Trigger(() -> m_keyboard.getXButton())
+      .onTrue(new RunCommand(() -> m_flyWheel.setSpeed(1), m_flyWheel))
+      .onFalse(new InstantCommand(() -> m_flyWheel.stop(), m_flyWheel));
     // Drivetrain Controler
     m_drive
         .setDefaultCommand(new DefaultDriveCommand(m_drive, () -> m_keyboard.getLeftX(), () -> m_keyboard.getLeftY()));
