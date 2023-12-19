@@ -18,8 +18,6 @@ public class FlyWheel extends SubsystemBase {
             Constants.kFlyWheelJKgMetersSquared);
     // Make Motor
     private final PWMSparkMax m_motor = new PWMSparkMax(Constants.kFlyWheelMotorPort);
-    private double m_motorSpeed = 0.0;
-
     /** Update the simulation model. */
     public void simulationPeriodic() {
         // In this method, we update our simulation of what our arm is doing
@@ -33,7 +31,7 @@ public class FlyWheel extends SubsystemBase {
     }
     /** Set FlyWheel to double Speed. */
     public void setSpeed(double Speed) {
-        m_motorSpeed = (Math.sqrt(Speed) * m_motorSpeed) + 0.1 * (RoboRioSim.getVInVoltage() / 50);
+        double m_motorSpeed = (Math.sqrt(Speed) * m_motor.get()) + 0.1 * (RoboRioSim.getVInVoltage() / 50);
         m_motor.set(m_motorSpeed);
     }
     /** Stop the control loop and motor output. */
