@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
