@@ -50,7 +50,8 @@ public class Elevator extends SubsystemBase {
           Constants.kElevatorDrumRadius,
           Constants.kMinElevatorHeightMeters,
           Constants.kMaxElevatorHeightMeters,
-          true);
+          true, 
+          0);
   private final EncoderSim m_encoderSim = new EncoderSim(m_encoder);
   private final PWMSim m_motorSim = new PWMSim(m_motor);
 
