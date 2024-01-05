@@ -7,7 +7,7 @@ package frc.robot.commands;
 import frc.robot.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static CommandBase exampleAuto(Drivetrain drivetrain, Timer timer ) {
+  public static Command exampleAuto(Drivetrain drivetrain, Timer timer ) {
     timer.restart();
 
     return new SequentialCommandGroup(

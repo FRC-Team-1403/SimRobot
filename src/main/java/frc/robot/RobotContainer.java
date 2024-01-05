@@ -83,6 +83,7 @@ public class RobotContainer {
     new Trigger(() -> m_keyboard.getBButton())
         .onTrue(new RunCommand(() -> m_arm.reachSetpoint(), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.stop(), m_arm));
+    //Fly Wheel Control
     new Trigger(() -> m_keyboard.getXButton())
       .onTrue(new RunCommand(() -> m_flyWheel.setSpeed(1), m_flyWheel))
       .onFalse(new InstantCommand(() -> m_flyWheel.stop(), m_flyWheel));

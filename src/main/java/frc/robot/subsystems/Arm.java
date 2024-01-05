@@ -46,7 +46,8 @@ public class Arm extends SubsystemBase {
           Constants.kArmLength,
           Constants.kMinAngleRads,
           Constants.kMaxAngleRads,
-          true
+          true,
+          0
           );
   private final EncoderSim m_encoderSim = new EncoderSim(m_encoder);
 
