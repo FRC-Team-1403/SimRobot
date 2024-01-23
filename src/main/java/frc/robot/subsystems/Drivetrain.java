@@ -71,7 +71,7 @@ public class Drivetrain extends SubsystemBase {
       LinearSystemId.identifyDrivetrainSystem(1.98, 0.2, 1.5, 0.3);
   private final DifferentialDrivetrainSim m_drivetrainSimulator =
       new DifferentialDrivetrainSim(
-          m_drivetrainSystem, DCMotor.getCIM(2), 8, kTrackWidth, kWheelRadius, null);
+          m_drivetrainSystem, DCMotor.getCIM(2), 2, kTrackWidth, kWheelRadius, null);
 
   /** Subsystem constructor. */
   public Drivetrain() {
