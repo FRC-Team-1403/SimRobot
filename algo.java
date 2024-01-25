@@ -34,7 +34,7 @@ public class algo {
             }
         }
         System.out.println("low Data: " +  lowData + " high data  " + highData + " Low data dist " + lowDataDistance + " high data dist " + highDataDistance);
-        return ((highData / highDataDistance) + (lowData / lowDataDistance)) * ((highDataDistance * lowDataDistance) / 2);
+        return (Math.abs(highData / highDataDistance) + Math.abs(lowData / lowDataDistance)) * Math.abs((highDataDistance * lowDataDistance) / 2);
     }
     public static void main(String[] args) {
         System.out.println(new algo().compute(10));
