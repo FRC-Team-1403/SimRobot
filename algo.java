@@ -63,11 +63,11 @@ public class algo {
         System.out.println("Low Data: " + lowData + ", High Data: " + highData +
                            ", Low Data Dist: " + lowDataDistance + ", High Data Dist: " + highDataDistance);
 
-        return (Math.abs(highData / highDataDistance) + Math.abs(lowData / lowDataDistance)) *
+        return ((highData / highDataDistance) + Math.abs(lowData / lowDataDistance)) *
                Math.abs((highDataDistance * lowDataDistance) / 2);
     }
 
     public static void main(String[] args) {
-        System.out.println(new algo().compute(10));
+        System.out.println(new algo().compute(10.5));
     }
 }
