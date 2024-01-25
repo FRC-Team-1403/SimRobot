@@ -11,30 +11,29 @@ public class algo {
     public  double compute(double location) {
         double lowData = 0;
         double highData = 0;
-        double lowDataDistance = 1000000000;
+        double lowDataDistance = -1000000000;
         double highDataDistance = 100000000;
          for (Map.Entry<Double, Double> entry : table.entrySet()) {
             double key = entry.getKey();
             double value = entry.getValue();
-            double check = location - key;
+            double check =  key - location;
             if (location  - key > 0){
-               if (check > highDataDistance) {
-                highDataDistance = check;
+               if (check > lowDataDistance) {
+                lowDataDistance = check;
                 lowData = value;
-                highData = value;
                }
             }else if (location == key) {
                 lowData = value;
                 highData = value;
                 break;
             }else {
-                if (check < lowDataDistance) {
-                lowDataDistance = check;
-                lowData = value;
+                if (check < highDataDistance) {
+                highDataDistance = check;
                 highData = value;
                }
             }
         }
+        System.out.println("low Data: " +  lowData + " high data  " + highData + " Low data dist " + lowDataDistance + " high data dist " + highDataDistance);
         return ((highData / highDataDistance) + (lowData / lowDataDistance)) * ((highDataDistance * lowDataDistance) / 2);
     }
     public static void main(String[] args) {
