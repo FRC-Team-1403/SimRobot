@@ -47,11 +47,11 @@ public class algo {
             double key = entry.getKey();
             double value = entry.getValue();
             double check = key - location;
-
-            if (check > 0 && check > lowDataDistance) {
+            // if key negtive then it lower
+            if (check < 0 && check > lowDataDistance) {
                 lowDataDistance = check;
                 lowData = value;
-            } else if (check < 0 && check < highDataDistance) {
+            } else if (check > 0 && check < highDataDistance) {
                 highDataDistance = check;
                 highData = value;
             } else if (check == 0) {
