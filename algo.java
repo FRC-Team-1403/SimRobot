@@ -1,12 +1,14 @@
 //based on distance x, determine y (time at max power)
+import java.util.HashMap;
+import java.util.Map;
 
-public class sampleAlgo {
-    private HashMap<Double, Double> table = new HashMap<Double, Double>();
-    public sampleAlgo() {
-        //add values here
-        table.put(null, null);
+public class algo {
+    public algo() {
+        table.put(9.0, 20.0);
+        table.put(11.0, 30.0);
     }
-    public double compute(double location) {
+    private HashMap<Double, Double> table = new HashMap<Double, Double>();
+    public  double compute(double location) {
         double lowData = 0;
         double highData = 0;
         double lowDataDistance = 1000000000;
@@ -36,6 +38,6 @@ public class sampleAlgo {
         return ((highData / highDataDistance) + (lowData / lowDataDistance)) * ((highDataDistance * lowDataDistance) / 2);
     }
     public static void main(String[] args) {
-        
+        System.out.println(new algo().compute(10));
     } 
 }
