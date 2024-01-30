@@ -6,8 +6,18 @@ class algo {
     private final Map<Double, Map<Double, ShooterValues>> table = new TreeMap<>();
 
     public algo() {
-
-
+        // test data
+        table.put(2.0, new TreeMap<>());
+        table.get(2.0).put(2.0, new ShooterValues(20, 20, 20));
+        //
+        table.put(1.0, new TreeMap<>());
+        table.get(1.0).put(2.0, new ShooterValues(20, 20, 20));
+        //
+        table.put(2.0, new TreeMap<>());
+        table.get(1.0).put(2.0, new ShooterValues(20, 20, 20));
+        //
+        table.put(1.0, new TreeMap<>());
+        table.get(2.0).put(2.0, new ShooterValues(20, 20, 20));
     }
 
     public ShooterValues compute(double location) {
@@ -20,10 +30,9 @@ class algo {
         // we have points now calc time
         ShooterValues high = pointsHigh.high.interpolateOther(pointsHigh.low, pointsHigh.highDataDistance, pointsHigh.lowDataDistance);
         ShooterValues low = pointsLow.high.interpolateOther(pointsLow.low, pointsLow.highDataDistance, pointsLow.lowDataDistance);
-        ShooterValues 
-        return new ShooterValues(interpolate(highData.angle, highDataDistance, lowData.angle, lowDataDistance),
-                interpolate(highData.rpm, highDataDistance, lowData.rpm, lowDataDistance),
-                interpolate(highData.offset, highDataDistance, lowData.offset, lowDataDistance));
+        return new ShooterValues(ShooterValues.interpolate(high.angle, ypoints.highDataDistance, low.angle, ypoints.lowDataDistance),
+        ShooterValues.interpolate(high.rpm, ypoints.highDataDistance, low.rpm, ypoints.lowDataDistance),
+        ShooterValues.interpolate(high.robotAngle, ypoints.highDataDistance, low.robotAngle, ypoints.lowDataDistance));
     }
 
     public static void main(String[] args) {
@@ -42,7 +51,7 @@ class ShooterValues {
         interpolate(this.robotAngle, selfDistance, other.robotAngle, otherDistance));
      }
 
-    private double interpolate(double highData, double highDataDistance, double lowData, double lowDataDistance) {
+    public static double interpolate(double highData, double highDataDistance, double lowData, double lowDataDistance) {
         return ((highData / highDataDistance) + Math.abs(lowData / lowDataDistance)) *
                 Math.abs(highDataDistance * lowDataDistance);
     }
