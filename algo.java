@@ -3,30 +3,26 @@ import java.util.Map;
 import java.util.TreeMap;
 
 class algo {
-    private final Map<Double, Map<Double, ShooterValues>> table = new TreeMap<>();
+    private Map<Double, Map<Double, ShooterValues>> table = new TreeMap<>();
 
     public algo() {
         // test data
         table.put(2.0, new TreeMap<>());
         table.get(2.0).put(2.0, new ShooterValues(20, 20, 20));
+        table.get(2.0).put(1.0, new ShooterValues(20, 20, 20));
         //
         table.put(1.0, new TreeMap<>());
         table.get(1.0).put(2.0, new ShooterValues(20, 20, 20));
-        //
-        table.put(2.0, new TreeMap<>());
-        table.get(1.0).put(2.0, new ShooterValues(20, 20, 20));
-        //
-        table.put(1.0, new TreeMap<>());
-        table.get(2.0).put(2.0, new ShooterValues(20, 20, 20));
+        table.get(1.0).put(1.0, new ShooterValues(20, 20, 20));
     }
 
     public ShooterValues compute(double location) {
         Values<Map<Double, ShooterValues>> ypoints = new Values<Map<Double, ShooterValues>>();
         ypoints.findCloset(table, location);
-        Values<ShooterValues> pointsHigh = new Values<ShooterValues>();
-        pointsHigh.findCloset(ypoints.high, location);
         Values<ShooterValues> pointsLow = new Values<ShooterValues>();
         pointsLow.findCloset(ypoints.low, location);
+        Values<ShooterValues> pointsHigh = new Values<ShooterValues>();
+        pointsHigh.findCloset(ypoints.high, location);
         // we have points now calc time
         ShooterValues high = pointsHigh.high.interpolateOther(pointsHigh.low, pointsHigh.highDataDistance, pointsHigh.lowDataDistance);
         ShooterValues low = pointsLow.high.interpolateOther(pointsLow.low, pointsLow.highDataDistance, pointsLow.lowDataDistance);
@@ -36,7 +32,7 @@ class algo {
     }
 
     public static void main(String[] args) {
-        System.out.println(new algo().compute(2.2));
+        System.out.println(new algo().compute(1.5));
     }
 }
 
@@ -82,6 +78,9 @@ class Values<T> {
     public void findCloset(Map<Double, T> data, double location) {
         T lowData = null;
         T highData = null;
+        if (data == null) {
+            throw new IllegalArgumentException("Data map cannot be null");
+        }
         for (Map.Entry<Double, T> entry : data.entrySet()) {
             double key = entry.getKey();
             T value = entry.getValue();
