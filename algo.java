@@ -8,12 +8,12 @@ class algo {
     public algo() {
         // test data
         table.put(2.0, new TreeMap<>());
-        table.get(2.0).put(2.0, new ShooterValues(20, 20, 20));
-        table.get(2.0).put(1.0, new ShooterValues(20, 20, 20));
+        table.get(2.0).put(2.0, new ShooterValues(20, 20, 10));
+        table.get(2.0).put(1.0, new ShooterValues(10, 10, 10));
         //
         table.put(1.0, new TreeMap<>());
-        table.get(1.0).put(2.0, new ShooterValues(20, 20, 20));
-        table.get(1.0).put(1.0, new ShooterValues(20, 20, 20));
+        table.get(1.0).put(2.0, new ShooterValues(10,10, 10));
+        table.get(1.0).put(1.0, new ShooterValues(10, 10, 20));
     }
 
     public ShooterValues compute(double location) {
