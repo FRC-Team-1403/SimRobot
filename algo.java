@@ -4,7 +4,7 @@ class algo {
     public algo() {
         // test data
         table = new ShooterValues[12][12];
-        table [4][8] = new ShooterValues(10, 10, 10);
+        table [4][8] = new ShooterValues(20, 20, 20);
         table [8][8] = new ShooterValues(20, 20, 20);
         table [8][4] = new ShooterValues(10, 10, 10);
         table [4][4] = new ShooterValues(10, 10, 10);
@@ -172,7 +172,7 @@ class RoundOff {
 
 class SimpleRegression {
     public static double calc(double first, double last, int distanceFirst, int distanceLast) {
-        double slope = (first - last) / (distanceFirst + distanceLast);
+        double slope = (first - last);
         return slope * distanceLast;
     }
 }
