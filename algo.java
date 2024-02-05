@@ -40,7 +40,7 @@ class algo {
     }
 
     public static void main(String[] args) {
-        System.out.println(new algo().compute(6, 6));
+        System.out.println(new algo().compute(10, 10));
     }
 }
 
@@ -60,39 +60,56 @@ class Values<T> {
     }
 
     public void findClosest(T[] data, int location) {
-        T lowData = null;
-        T highData = null;
-
         RoundOff roundOffHigh = new RoundOff(count, location, 1);
         highDataDistance = roundOffHigh.offset;
         RoundOff roundOffLow = new RoundOff(count, location, -1);
         lowDataDistance = roundOffLow.offset;
-
         this.high = findHigh(roundOffHigh.value, data);
         this.low = findLow(roundOffLow.value, data);
+        if (this.low == null) {
+            this.low = this.high;
+            this.lowDataDistance = this.highDataDistance;
+            this.high =  findHigh(roundOffHigh.value + this.count, data);
+            this.highDataDistance =+ count;
+        }else  if (this.high == null) {
+            this.high = this.low;
+            this.highDataDistance = this.lowDataDistance;
+            this.low =  findHigh(roundOffHigh.value + this.count, data);
+            this.lowDataDistance =+ count;
+        }
     }
 
     private T findHigh(int locationRounded, T[] data) {
+        if (data == null) {
+            return null;
+        }
         while (locationRounded != 0 && locationRounded < data.length) {
             try {
-                return data[locationRounded];
+                if (data[locationRounded] != null) 
+                    return data[locationRounded];
             } catch (Exception e) {
                 locationRounded += count;
                 highDataDistance += count;
             }
         }
+        highDataDistance = 0;
         return null;
     }
 
     private T findLow(int locationRounded, T[] data) {
+        if (data == null) {
+            return null;
+        }
         while (locationRounded != 0 && locationRounded < data.length) {
             try {
-                return data[locationRounded];
+                if (data[locationRounded] != null) 
+                    return data[locationRounded];
             } catch (Exception e) {
                 locationRounded -= count;
                 lowDataDistance += count;
             }
         }
+        lowDataDistance = 0;
         return null;
     }
 }
@@ -101,13 +118,24 @@ class ShooterValues {
     public double angle;
     public double rpm;
     public double robotAngle;
-
+    private final int regressionThreshold = 8;
     public ShooterValues interpolateOther(ShooterValues other, int selfDistance, int otherDistance) {
         if (selfDistance  == 0) {
             return this;
         }
         else if (otherDistance  == 0) {
             return other;
+        }
+        if (selfDistance > otherDistance && selfDistance <= regressionThreshold){
+            this.angle = SimpleRegression.calc(this.angle, other.angle, otherDistance, selfDistance);
+            this.robotAngle = SimpleRegression.calc(this.robotAngle, other.robotAngle, otherDistance, selfDistance);
+            this.rpm = SimpleRegression.calc(this.rpm, other.rpm, otherDistance, selfDistance);
+            return this;
+        }else if(otherDistance > selfDistance && selfDistance <= regressionThreshold) {
+            this.angle = SimpleRegression.calc(this.angle, other.angle, otherDistance, selfDistance);
+            this.robotAngle = SimpleRegression.calc(this.robotAngle, other.robotAngle, otherDistance, selfDistance);
+            this.rpm = SimpleRegression.calc(this.rpm, other.rpm, otherDistance, selfDistance);
+            return this;
         }
         return new ShooterValues(interpolate(this.angle, selfDistance, other.angle, otherDistance),
         interpolate(this.rpm, selfDistance, other.rpm, otherDistance),
@@ -139,5 +167,12 @@ class RoundOff {
             value += increment;
             offset++;
         }
+    }
+}
+
+class SimpleRegression {
+    public static double calc(double first, double last, int distanceFirst, int distanceLast) {
+        double slope = (first - last) / (distanceFirst + distanceLast);
+        return slope * distanceLast;
     }
 }
