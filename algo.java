@@ -4,9 +4,9 @@ class algo {
     public algo() {
         // test data
         table = new ShooterValues[12][12];
-        table [4][8] = new ShooterValues(20, 20, 10);
-        table [8][8] = new ShooterValues(10, 10, 10);
-        table [8][4] = new ShooterValues(20, 20, 10);
+        table [4][8] = new ShooterValues(10, 10, 10);
+        table [8][8] = new ShooterValues(20, 20, 20);
+        table [8][4] = new ShooterValues(10, 10, 10);
         table [4][4] = new ShooterValues(10, 10, 10);
 
         };
@@ -40,7 +40,7 @@ class algo {
     }
 
     public static void main(String[] args) {
-        System.out.println(new algo().compute(10, 10));
+        System.out.println("Final Values Are\n" + new algo().compute(10, 10));
     }
 }
 
