@@ -3,7 +3,7 @@ class algo {
 
     public algo() {
         // test data
-        table = new ShooterValues[12][12];
+        table = new ShooterValues[14][14];
         table [4][8] = new ShooterValues(20, 20, 20);
         table [8][8] = new ShooterValues(20, 20, 20);
         table [8][4] = new ShooterValues(10, 10, 10);
@@ -40,7 +40,7 @@ class algo {
     }
 
     public static void main(String[] args) {
-        System.out.println("Final Values Are\n" + new algo().compute(10, 10));
+        System.out.println("Final Values Are\n" + new algo().compute(11, 11));
     }
 }
 
@@ -84,13 +84,13 @@ class Values<T> {
             return null;
         }
         while (locationRounded != 0 && locationRounded < data.length) {
+            locationRounded += count;
+            highDataDistance += count;
             try {
                 if (data[locationRounded] != null) 
                     return data[locationRounded];
-            } catch (Exception e) {
-                locationRounded += count;
-                highDataDistance += count;
-            }
+            
+            } catch (Exception e) {}
         }
         highDataDistance = 0;
         return null;
