@@ -74,7 +74,7 @@ class Values<T> {
         }else  if (this.high == null) {
             this.high = this.low;
             this.highDataDistance = this.lowDataDistance;
-            this.low =  findHigh(roundOffHigh.value + this.count, data);
+            this.low =  findLow(roundOffLow.value - this.count, data);
             this.lowDataDistance =+ count;
         }
     }
