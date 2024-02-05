@@ -1,38 +1,99 @@
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 class algo {
-    private Map<Double, Map<Double, ShooterValues>> table = new TreeMap<>();
+    private ShooterValues[][] table;
 
     public algo() {
         // test data
-        table.put(2.0, new TreeMap<>());
-        table.get(2.0).put(2.0, new ShooterValues(20, 20, 10));
-        table.get(2.0).put(1.0, new ShooterValues(10, 10, 10));
-        //
-        table.put(1.0, new TreeMap<>());
-        table.get(1.0).put(2.0, new ShooterValues(10,10, 10));
-        table.get(1.0).put(1.0, new ShooterValues(10, 10, 20));
-    }
+        table = new ShooterValues[12][12];
+        table [4][8] = new ShooterValues(20, 20, 10);
+        table [8][8] = new ShooterValues(10, 10, 10);
+        table [8][4] = new ShooterValues(20, 20, 10);
+        table [4][4] = new ShooterValues(10, 10, 10);
 
-    public ShooterValues compute(double location) {
-        Values<Map<Double, ShooterValues>> ypoints = new Values<Map<Double, ShooterValues>>();
-        ypoints.findCloset(table, location);
-        Values<ShooterValues> pointsLow = new Values<ShooterValues>();
-        pointsLow.findCloset(ypoints.low, location);
-        Values<ShooterValues> pointsHigh = new Values<ShooterValues>();
-        pointsHigh.findCloset(ypoints.high, location);
-        // we have points now calc time
+        };
+
+    public ShooterValues compute(int locationX, int locationY) {
+        Values<ShooterValues[]> pointsX = new Values<>();
+        pointsX.findClosest(table, locationX);
+        System.out.println();
+        Values<ShooterValues> pointsLow = new Values<>();
+        pointsLow.findClosest(pointsX.low, locationY);
+        Values<ShooterValues> pointsHigh = new Values<>();
+        pointsHigh.findClosest(pointsX.high, locationY);
+        System.out.println(pointsHigh.highDataDistance);
         ShooterValues high = pointsHigh.high.interpolateOther(pointsHigh.low, pointsHigh.highDataDistance, pointsHigh.lowDataDistance);
+        System.out.println(high);
+        System.out.println();
         ShooterValues low = pointsLow.high.interpolateOther(pointsLow.low, pointsLow.highDataDistance, pointsLow.lowDataDistance);
-        return new ShooterValues(ShooterValues.interpolate(high.angle, ypoints.highDataDistance, low.angle, ypoints.lowDataDistance),
-        ShooterValues.interpolate(high.rpm, ypoints.highDataDistance, low.rpm, ypoints.lowDataDistance),
-        ShooterValues.interpolate(high.robotAngle, ypoints.highDataDistance, low.robotAngle, ypoints.lowDataDistance));
+        System.out.println(low);
+        System.out.println();
+        if (pointsX.highDataDistance  == 0) {
+            return high;
+        }
+        else if (pointsX.lowDataDistance  == 0) {
+            return low;
+        }
+        return new ShooterValues(
+                ShooterValues.interpolate(high.angle, pointsX.highDataDistance, low.angle, pointsX.lowDataDistance),
+                ShooterValues.interpolate(high.rpm, pointsX.highDataDistance, low.rpm, pointsX.lowDataDistance),
+                ShooterValues.interpolate(high.robotAngle, pointsX.highDataDistance, low.robotAngle, pointsX.lowDataDistance)
+        );
     }
 
     public static void main(String[] args) {
-        System.out.println(new algo().compute(1.5));
+        System.out.println(new algo().compute(6, 6));
+    }
+}
+
+class Values<T> {
+    public T high;
+    public T low;
+    public int highDataDistance =0;
+    public int lowDataDistance = 0;
+    private final int count = 4;
+
+    public Values(T high, T low) {
+        this.high = high;
+        this.low = low;
+    }
+
+    public Values() {
+    }
+
+    public void findClosest(T[] data, int location) {
+        T lowData = null;
+        T highData = null;
+
+        RoundOff roundOffHigh = new RoundOff(count, location, 1);
+        highDataDistance = roundOffHigh.offset;
+        RoundOff roundOffLow = new RoundOff(count, location, -1);
+        lowDataDistance = roundOffLow.offset;
+
+        this.high = findHigh(roundOffHigh.value, data);
+        this.low = findLow(roundOffLow.value, data);
+    }
+
+    private T findHigh(int locationRounded, T[] data) {
+        while (locationRounded != 0 && locationRounded < data.length) {
+            try {
+                return data[locationRounded];
+            } catch (Exception e) {
+                locationRounded += count;
+                highDataDistance += count;
+            }
+        }
+        return null;
+    }
+
+    private T findLow(int locationRounded, T[] data) {
+        while (locationRounded != 0 && locationRounded < data.length) {
+            try {
+                return data[locationRounded];
+            } catch (Exception e) {
+                locationRounded -= count;
+                lowDataDistance += count;
+            }
+        }
+        return null;
     }
 }
 
@@ -41,15 +102,21 @@ class ShooterValues {
     public double rpm;
     public double robotAngle;
 
-    public ShooterValues interpolateOther(ShooterValues other, double selfDistance, double otherDistance) {
+    public ShooterValues interpolateOther(ShooterValues other, int selfDistance, int otherDistance) {
+        if (selfDistance  == 0) {
+            return this;
+        }
+        else if (otherDistance  == 0) {
+            return other;
+        }
         return new ShooterValues(interpolate(this.angle, selfDistance, other.angle, otherDistance),
         interpolate(this.rpm, selfDistance, other.rpm, otherDistance),
         interpolate(this.robotAngle, selfDistance, other.robotAngle, otherDistance));
      }
 
-    public static double interpolate(double highData, double highDataDistance, double lowData, double lowDataDistance) {
-        return ((highData / highDataDistance) + Math.abs(lowData / lowDataDistance)) *
-                Math.abs(highDataDistance * lowDataDistance);
+    public static double interpolate(double highData, int highDataDistance, double lowData, int lowDataDistance) {
+        return ((highData / highDataDistance) + (lowData / lowDataDistance)) *
+        (highDataDistance * lowDataDistance) / 4;
     }
     public ShooterValues(double angle, double rpm, double offset) {
         this.angle = angle;
@@ -62,43 +129,15 @@ class ShooterValues {
     }
 }
 
-class Values<T> {
-    public T high;
-    public T low;
-    public double highDataDistance = Double.POSITIVE_INFINITY;
-    public double  lowDataDistance = Double.NEGATIVE_INFINITY;
-    public Values(T high, T low) {
-        this.high = high;
-        this.low = low;
-    }
 
-    public Values() {
-    }
-
-    public void findCloset(Map<Double, T> data, double location) {
-        T lowData = null;
-        T highData = null;
-        if (data == null) {
-            throw new IllegalArgumentException("Data map cannot be null");
+class RoundOff {
+    public int value;
+    public int offset;
+    public RoundOff(int count, int num, int increment) {
+        value = num;
+        while (value % count != 0) {
+            value += increment;
+            offset++;
         }
-        for (Map.Entry<Double, T> entry : data.entrySet()) {
-            double key = entry.getKey();
-            T value = entry.getValue();
-            double check = key - location;
-            // if key negative then it lower
-            if (check < 0 && check > lowDataDistance) {
-                lowDataDistance = check;
-                lowData = value;
-            } else if (check > 0 && check < highDataDistance) {
-                highDataDistance = check;
-                highData = value;
-            } else if (check == 0) {
-                lowData = value;
-                highData = value;
-                break;
-            }
-        }
-        this.high = highData;
-        this.low = lowData;
     }
 }
