@@ -40,7 +40,7 @@ class algo {
     }
 
     public static void main(String[] args) {
-        System.out.println("Final Values Are\n" + new algo().compute(11, 11));
+        System.out.println("Final Values Are\n" + new algo().compute(0, 0));
     }
 }
 
@@ -84,13 +84,12 @@ class Values<T> {
             return null;
         }
         while (locationRounded != 0 && locationRounded < data.length) {
-            locationRounded += count;
-            highDataDistance += count;
             try {
                 if (data[locationRounded] != null) 
                     return data[locationRounded];
-            
             } catch (Exception e) {}
+            locationRounded += count;
+            highDataDistance += count;
         }
         highDataDistance = 0;
         return null;
@@ -104,10 +103,9 @@ class Values<T> {
             try {
                 if (data[locationRounded] != null) 
                     return data[locationRounded];
-            } catch (Exception e) {
-                locationRounded -= count;
-                lowDataDistance += count;
-            }
+            } catch (Exception e) {}
+            locationRounded -= count;
+            lowDataDistance += count;
         }
         lowDataDistance = 0;
         return null;
@@ -172,7 +170,8 @@ class RoundOff {
 
 class SimpleRegression {
     public static double calc(double first, double last, int distanceFirst, int distanceLast) {
-        double slope = (first - last);
-        return slope * distanceLast;
+        double slope = (first - last) / (distanceFirst - distanceLast);
+        double x = (last - slope * distanceLast) / slope;
+        return x;
     }
 }
